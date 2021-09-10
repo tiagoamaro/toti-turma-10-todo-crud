@@ -1,0 +1,29 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Fazer APP Todo",
+      "done": true
+    },
+    {
+      "id": 2,
+      "title": "Comprar batata",
+      "done": false
+    },
+    {
+      "id": 3,
+      "title": "Estudar React routes",
+      "done": false
+    },
+    {
+      "id": 4,
+      "title": "Comprar maçãs",
+      "done": false
+    },
+    {
+      "id": 5,
+      "title": "Arrumar a casa",
+      "done": true
+    }
+  ]
+}
