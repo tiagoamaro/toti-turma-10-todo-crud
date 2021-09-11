@@ -1,58 +1,26 @@
 import React from "react";
-import EditarTarefa from "./EditarTarefa";
+import { Link, useHistory } from "react-router-dom"; 
 
-export default class Tarefa extends React.Component {
-    constructor(props) {
-        super(props)
+export default function Tarefa({ task }) {
+    const history = useHistory()
+    const { id, title, done } = task
 
-        this.state = {
-            editing: false
-        }
+    const deleteTask = () => {
+        fetch(`http://localhost:3001/tasks/${id}`, { method: "DELETE" })
 
-        this.delete = this.delete.bind(this);
-        this.switchEdit = this.switchEdit.bind(this);
+        // After deleting, let's refresh the page
+        history.go(0)
     }
 
-    delete() {
-        const { id } = this.props.task;
-        const url = `http://localhost:3001/tasks/${id}`;
 
-        fetch(url, {
-            method: "DELETE"
-        })
+    return (
+        <li>
+            <div>ID: {id}</div>
+            <div>Title: {title}</div>
+            <div>Done: {done ? "Pronto!" : "Pendente"}</div>
 
-        this.props.fetchTasksCallback();
-    }
-
-    switchEdit() {
-        this.setState({ editing: !this.state.editing })
-    }
-
-    render() {
-        // this.props.task
-        // task => { id, title, done }
-
-        const { id, title, done } = this.props.task;
-
-        return (
-            <li>
-                <div>ID: {id}</div>
-                <div>Title: {title}</div>
-                <div>Done: {done ? "Pronto!" : "Pendente"}</div>
-
-                <button onClick={this.delete}>Delete</button>
-                <button onClick={this.switchEdit}>Edit</button>
-
-                {
-                    this.state.editing ?
-                        <EditarTarefa 
-                            task={this.props.task}
-                            fetchTasksCallback={this.props.fetchTasksCallback}
-                            switchEdit={this.switchEdit}
-                        /> :
-                        null
-                }
-            </li>
-        )
-    }
+            <button onClick={deleteTask}>Delete</button>
+            <Link to={`/edit/${id}`}>Edit</Link>
+        </li>
+    )
 }
