@@ -1,67 +1,51 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom"; 
 
-export default class EditarTarefa extends React.Component {
-    constructor(props) {
-        super(props)
+export default function EditarTarefa() {
+    const history = useHistory()
+    const { id } = useParams()
+    const [title, setTitle] = useState("")
+    const [done, setDone] = useState(false)
+    const url = `http://localhost:3001/tasks/${id}`;
 
-        const { title, done } = props.task
+    // After component is mounted, let's load data from the API, as we have the ID from the URL
+    useEffect(() => {
+        fetch(url)
+          .then(response => response.json())
+          .then(task => {
+              setTitle(task.title)
+              setDone(task.done)
+          })
+    }, [url])
 
-        this.state = {
-            title: title,
-            done: done
-        }
 
-        this.updateTitle = this.updateTitle.bind(this);
-        this.updateDone = this.updateDone.bind(this);
-        this.update = this.update.bind(this);
-    }
-
-    updateTitle(event) {
-        this.setState({ title: event.target.value })
-    }
-
-    updateDone(event) {
-        this.setState({ done: event.target.checked })
-    }
-
-    update() {
-        const { id } = this.props.task
-        const { title, done } = this.state
-
-        const url = `http://localhost:3001/tasks/${id}`;
-
-        const updatedTask = {
-            title: title,
-            done: done
-        }
-
+    const update = () => {
         fetch(url, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(updatedTask)
+            body: JSON.stringify({ title, done })
         })
 
-        this.props.fetchTasksCallback()
-        this.props.switchEdit()
+        // After updating, let's go back to the home page
+        history.push("/")
     }
 
-    render() {
-        return (
-            <div>
-                <label>
-                    Novo titulo:
-                    <input type="text" value={this.state.title} onChange={this.updateTitle} />
-                </label>
 
-                <label>
-                    Pronto
-                    <input type="checkbox" checked={this.state.done} onChange={this.updateDone} />
-                </label>
+    return (
+        <div>
+            <label>
+                Novo titulo:
+                <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} />
+            </label>
 
-                <button onClick={this.update}>Salvar</button>
-            </div>
-        )
-    }
+            <label>
+                Pronto
+                <input type="checkbox" checked={done} onChange={(event) => setDone(event.target.checked)} />
+            </label>
+
+            <button onClick={update}>Salvar</button>
+        </div>
+    )
 }
