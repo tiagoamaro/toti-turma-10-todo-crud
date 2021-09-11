@@ -1,16 +1,14 @@
 import './App.css';
+import Lista from "./Lista"
+
+// Lista de tarefas
+// -> Listar tarefa por tarefa
+// -> tarefa
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          🚀🚀🚀
-        </p>
-        <p>
-          Bem vindos! Hoje faremos um <strong>TODO CRUD!</strong>
-        </p>
-      </header>
+      <Lista />
     </div>
   );
 }
