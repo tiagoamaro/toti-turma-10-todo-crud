@@ -1,10 +1,16 @@
 import React from "react";
+import EditarTarefa from "./EditarTarefa";
 
 export default class Tarefa extends React.Component {
     constructor(props) {
         super(props)
 
+        this.state = {
+            editing: false
+        }
+
         this.delete = this.delete.bind(this);
+        this.switchEdit = this.switchEdit.bind(this);
     }
 
     delete() {
@@ -16,6 +22,10 @@ export default class Tarefa extends React.Component {
         })
 
         this.props.fetchTasksCallback();
+    }
+
+    switchEdit() {
+        this.setState({ editing: !this.state.editing })
     }
 
     render() {
@@ -31,6 +41,16 @@ export default class Tarefa extends React.Component {
                 <div>Done: {done ? "Pronto!" : "Pendente"}</div>
 
                 <button onClick={this.delete}>Delete</button>
+                <button onClick={this.switchEdit}>Edit</button>
+
+                {
+                    this.state.editing ?
+                        <EditarTarefa 
+                            task={this.props.task}
+                            fetchTasksCallback={this.props.fetchTasksCallback}
+                        /> :
+                        null
+                }
             </li>
         )
     }
