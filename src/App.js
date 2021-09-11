@@ -13,7 +13,8 @@ export default class App extends React.Component {
     super()
 
     this.state = {
-      tasks: []
+      tasks: [],
+      version: 0,
     }
 
     this.fetchTasks = this.fetchTasks.bind(this);
@@ -22,7 +23,7 @@ export default class App extends React.Component {
   fetchTasks() {
     fetch("http://localhost:3001/tasks")
       .then(response => response.json())
-      .then(tasks => this.setState({ tasks: tasks }))
+      .then(tasks => this.setState({ tasks: tasks, version: this.state.version + 1 }))
   }
 
   componentDidMount() {

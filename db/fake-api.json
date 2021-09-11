@@ -1,24 +1,19 @@
 {
   "tasks": [
     {
-      "title": "Eu vou agora fechar isso aqui",
+      "title": "Entre outros!",
       "done": true,
       "id": 1
     },
     {
-      "title": "Finalmente funcionanod",
-      "done": true,
-      "id": 4
-    },
-    {
-      "title": "Atualiza ela agora!",
+      "title": "Uma outra ersao",
       "done": false,
-      "id": 5
+      "id": 2
     },
     {
-      "title": "A gente conseguiu!",
-      "done": true,
-      "id": 6
+      "title": "Toda vez que eu crio uma nova tarefa",
+      "done": false,
+      "id": 3
     }
   ]
 }
