@@ -1,48 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-export default class CriarTarefa extends React.Component {
-    constructor() {
-        super()
+export default function CriarTarefa() {
+    const history = useHistory()
+    const [title, setTitle] = useState("")
 
-        this.state = {
-            title: ""
-        }
-
-        this.handleChange = this.handleChange.bind(this)
-        this.save = this.save.bind(this)
-    }
-
-    handleChange(event) {
-        this.setState({ title: event.target.value })
-    }
-
-    save() {
-        const newTask = {
-            title: this.state.title,
-            done: false,
-        }
-
+    const save = () => {
         fetch("http://localhost:3001/tasks", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newTask)
+            body: JSON.stringify({ title, done: false })
         })
 
-        this.setState({ title: "" })
-        this.props.createTaskCallback()
+        // After saving, go back to the home page
+        history.push("/")
     }
 
-    render() {
-        return (
-            <div>
-                <label>
-                    Criar tarefa
-                    <input type="text" value={this.state.title} onChange={this.handleChange}></input>
-                </label>
-                <button onClick={this.save}>Criar</button>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <label>
+                Criar tarefa
+                <input type="text" value={title} onChange={(event) => setTitle(event.target.value)}></input>
+            </label>
+            <button onClick={save}>Criar</button>
+        </div>
+    )
 }
