@@ -48,6 +48,7 @@ export default class Tarefa extends React.Component {
                         <EditarTarefa 
                             task={this.props.task}
                             fetchTasksCallback={this.props.fetchTasksCallback}
+                            switchEdit={this.switchEdit}
                         /> :
                         null
                 }

@@ -13,6 +13,7 @@ export default class EditarTarefa extends React.Component {
 
         this.updateTitle = this.updateTitle.bind(this);
         this.updateDone = this.updateDone.bind(this);
+        this.update = this.update.bind(this);
     }
 
     updateTitle(event) {
@@ -21,6 +22,29 @@ export default class EditarTarefa extends React.Component {
 
     updateDone(event) {
         this.setState({ done: event.target.checked })
+    }
+
+    update() {
+        const { id } = this.props.task
+        const { title, done } = this.state
+
+        const url = `http://localhost:3001/tasks/${id}`;
+
+        const updatedTask = {
+            title: title,
+            done: done
+        }
+
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedTask)
+        })
+
+        this.props.fetchTasksCallback()
+        this.props.switchEdit()
     }
 
     render() {
@@ -36,7 +60,7 @@ export default class EditarTarefa extends React.Component {
                     <input type="checkbox" checked={this.state.done} onChange={this.updateDone} />
                 </label>
 
-                <button>Salvar</button>
+                <button onClick={this.update}>Salvar</button>
             </div>
         )
     }
